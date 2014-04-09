@@ -31,6 +31,9 @@
                 <div class="form-group">
                         <div class="col-xs-8">
                         <input name="collectionId" type="text" class="form-control input-lg" placeholder="URL or ID of a collection on getpostman.com" />
+                        <p style="margin-top: 10px;" class="text-muted">
+                            example: <a href="https://www.getpostman.com/collections/52016da919f6ed2a0a46" id="demo" class="text-muted">https://www.getpostman.com/collections/52016da919f6ed2a0a46</a>
+                        </p>
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary col-xs-3">Convert</button>
                 </div>
@@ -58,6 +61,13 @@
     </div>
     <script>
     jQuery(document).ready(function() {
+
+        $(document).on('click touch', 'a#demo', function(e) {
+            e.preventDefault();
+            $('input[name="collectionId"]').val( this.href );
+            $('form[name="postman2jquery"]').submit();
+        });
+
         $(document).on('submit', 'form[name="postman2jquery"]', function(e) {
             e.preventDefault();
             $('#result').fadeOut();

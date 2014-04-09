@@ -83,7 +83,7 @@
                 'cache': false,
                 'url': '/collections/' + collectionId,
                 'success': function (response) {
-                   $('#url').text('<script src="'+window.location.host+'/collections/'+collectionId+'.js"><'+'/script>');
+                   $('#url').text('<script src="http://'+window.location.host+'/collections/'+collectionId+'.js"><'+'/script>');
                    $('#javascript').html(response);
                    $('#result').slideDown();
                 }

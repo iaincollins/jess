@@ -1,0 +1,84 @@
+<div class="hidden-xs" style="background-image: url(/img/postman-pat.jpg); background-repeat: no-repeat; background-attachment: fixed; background-position: center -200px; background-size: cover; -moz-background-size: cover; margin-bottom: 50px; border-bottom: 5px solid red;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="text-center" style="font-size: 72px; color: #fff; margin: 80px 0; text-shadow: 0 0px 12px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.5);">Jess <small style="color: rgba(255,255,255,0.85);">a companion for Postman</small></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container visible-xs">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Jess</h1>
+            <p class="lead">
+                a companion for Postman
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1 col-md-2">&nbsp;</div>
+        <div class="col-sm-10 col-md-8">
+            <form name="postman2jquery" method="get" action="/collections/" class="row">
+                <div class="form-group">
+                    <p class="lead text-center">
+                        <strong>Jess</strong> converts a <a href="http://www.getpostman.com">Postman</a> API collection
+                        to a JavaScript library
+                    </p>
+                </div>
+                <div class="form-group">
+                        <div class="col-xs-8">
+                        <input name="collectionId" type="text" class="form-control input-lg" placeholder="URL or ID of a collection on getpostman.com" />
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary col-xs-3">Convert</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-1 col-md-2">&nbsp;</div>
+    </div>
+    <div id="result" class="row" style="margin-top: 20px; display: none;">
+        <div class="col-sm-1 col-md-2">&nbsp;</div>
+        <div class="col-sm-10 col-md-8">
+            <h2>JavaScript library</h2>
+            <pre id="url" class="text-center"></pre>
+            <div class="well">
+                <textarea id="javascript" class="form-control" rows="50" style="font-family: monaco; font-size: 12px;"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-2">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted text-center" style="margin: 75px 0;">
+                <a href="http://en.wikipedia.org/wiki/Postman_Pat">Jess</a> is beta software by <a href="http://iaincollins.com">@iaincollins</a> and not associated with <a href="http://www.getpostman.com">Postman</a>.
+            </p>
+        </div>
+    </div>
+    <script>
+    jQuery(document).ready(function() {
+        $(document).on('submit', 'form[name="postman2jquery"]', function(e) {
+            e.preventDefault();
+            $('#result').fadeOut();
+            
+            var input = $('input[name="collectionId"]').val().trim().replace(/\/$/, '');
+            input = input.split("/");
+            var collectionId = input[input.length - 1];
+            
+            if (collectionId == '')
+                return;
+
+            $.ajax({
+                'cache': false,
+                'url': '/collections/' + collectionId,
+                'success': function (response) {
+                   $('#url').text('<script src="'+window.location.host+'/collections/'+collectionId+'.js"><'+'/script>');
+                   $('#javascript').html(response);
+                   $('#result').slideDown();
+                }
+            });
+        });
+    });
+    </script>
+</div>

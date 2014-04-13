@@ -33,15 +33,18 @@ app.get('/collections/:collection', function(req, res, next) {
     var collectionId = path[0].replace(/_/g, ' ');
     var json = collectionId;
 
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     // @todo Wrap in try/catch to handle errors
     jess.getCollection(collectionId)
     .then(function(collection) {
+        if (collection == null)
+            return;
         // @todo create converters for languages other than javascript
         return jess.convertCollection(collection, "javascript");
     })
     .then(function(javascript) {
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(javascript);
     });
 });

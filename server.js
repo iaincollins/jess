@@ -32,10 +32,12 @@ app.get('/collections/:collection', function(req, res, next) {
     var path = req.params.collection.split('.');
     var collectionId = path[0].replace(/_/g, ' ');
     var json = collectionId;
-    
+
+    // @todo Wrap in try/catch to handle errors
     jess.getCollection(collectionId)
     .then(function(collection) {
-         return jess.collectionToJavaScript(collection);
+        // @todo create converters for languages other than javascript
+        return jess.convertCollection(collection, "javascript");
     })
     .then(function(javascript) {
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');

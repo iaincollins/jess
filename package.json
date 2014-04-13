@@ -11,6 +11,8 @@
     "q": "*",
     "cheerio": "*",
     "linewrap": "*",
-    "lingo": "*"
+    "lingo": "*",
+    "cloneextend" : "*",
+    "moment": "*"
   }
 }

@@ -1,4 +1,4 @@
-jess
+jess - a companion for postman
 ====
 
 #About Jess
@@ -11,11 +11,13 @@ Jess parses the collection objects exposed by getpostman.com - including the
 markdown uses for comments and environment variables - and generates client 
 libraries complete with inline documentation.
 
-Currently it only generates JavaScript libraries (that leverage jQuery) but the 
+Currently it only generates JavaScript libraries (that leverage jQuery). The 
 intention is to extend this over time to other languages, standalone 
 documentation and demos.
 
-You can find Jess running at http://jess.iaincollins.com
+You can find Jess running at http://getjess.com
+
+Note: Jess is not associated with Postman.
 
 #Hints and tips
 
@@ -76,5 +78,5 @@ asynchronous (blocking) rest calls so they can be easily consumed.
 If you are creating your own library from a collection, you might wish to 
 customise the library to use callbacks or event triggers instead.
 
-It's possible future versions of Jess will support callbacks or event triggers.
-
+Future versions of Jess may generate methods that support callbacks or event 
+triggers by default.

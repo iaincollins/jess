@@ -1,0 +1,72 @@
+{
+    "id": "1bef20d7-0e98-ad15-6f1d-9857d8588472",
+    "name": "Postman Demo",
+    "description": "",
+    "order": [
+        "2023b803-0b70-8d12-e32c-c7085d1480b4",
+        "2b63351c-3d44-6f20-a884-f150b5166ef6"
+    ],
+    "folders": [],
+    "timestamp": 1390838702183,
+    "synced": false,
+    "requests": [
+        {
+            "id": "2023b803-0b70-8d12-e32c-c7085d1480b4",
+            "headers": "Content-Type: application/json\n",
+            "url": "http://localhost/dummyapi/register",
+            "pathVariables": {},
+            "method": "POST",
+            "data": [
+                {
+                    "key": "username",
+                    "value": "abc",
+                    "type": "text"
+                },
+                {
+                    "key": "password",
+                    "value": "blah",
+                    "type": "text"
+                }
+            ],
+            "dataMode": "params",
+            "name": "Register",
+            "description": "",
+            "descriptionFormat": "html",
+            "time": 1390838810222,
+            "version": 2,
+            "responses": [],
+            "tests": "var data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"token\", data.token);",
+            "collectionId": "1bef20d7-0e98-ad15-6f1d-9857d8588472",
+            "synced": false
+        },
+        {
+            "id": "2b63351c-3d44-6f20-a884-f150b5166ef6",
+            "headers": "Content-Type: application/json\n",
+            "url": "http://localhost/dummyapi/status",
+            "pathVariables": {},
+            "method": "POST",
+            "data": [
+                {
+                    "key": "token",
+                    "value": "{{token}}",
+                    "type": "text"
+                },
+                {
+                    "key": "status",
+                    "value": "Something",
+                    "type": "text"
+                }
+            ],
+            "dataMode": "params",
+            "name": "Status update",
+            "description": "",
+            "descriptionFormat": "html",
+            "time": 1390838752882,
+            "version": 2,
+            "responses": [],
+            "tests": "tests[\"Body matches string\"] = responseBody.has(\"abcdefg\");",
+            "collectionId": "1bef20d7-0e98-ad15-6f1d-9857d8588472",
+            "synced": false
+        }
+    ]
+}

@@ -10,10 +10,10 @@
             <% if (typeof title !== 'undefined') { %><%= title %><% } else { %>Jess - Converts Postman API collections to JavaScript libraries<% } %>
         </title>
         <link rel="shortcut icon" href="/favicon.ico"/>
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+        <script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -21,6 +21,18 @@
         <![endif]-->
     </head>
     <body>
+        <div style="background-color: #2b88ce; margin-bottom: 20px; border-bottom: 5px solid #08559c;">
+            <div class="container">
+                <div class="row">
+                    <div class="hidden-xs col-xs-12">
+                        <h1 class="text-center" style="font-size: 72px; color: #fff; margin: 10px 0 20px 0;">Jess <small style="color: rgba(255,255,255,0.6);">a companion for Postman</small></h1>
+                    </div>
+                    <div class="visible-xs col-xs-12">
+                        <h1 class="text-center" style="color: #fff; margin: 10px 0 20px 0;">Jess <small style="color: rgba(255,255,255,0.6);">a companion for Postman</small></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         <%- body %>
     </body>
 </html>

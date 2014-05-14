@@ -13,7 +13,9 @@ var jess = require(__dirname + '/lib/jess');
 var app = express();
 app.use(express.static(__dirname + '/public'))
 app.use(partials());
-app.set('title', 'Jess - Converts Postman API collections to JavaScript libraries');
+app.use(express.json())
+app.use(express.urlencoded());
+app.set('title', 'Jess - Converts Postman API collections to libraries and documentation');
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('ejs', ejs.__express);
@@ -28,24 +30,81 @@ app.get('/collections/', function(req, res, next) {
 });
 
 app.get('/collections/:collection', function(req, res, next) {
-    // Ignore optional file extentions (e.g. ".js")
-    var path = req.params.collection.split('.');
-    var collectionId = path[0].replace(/_/g, ' ');
-    var json = collectionId;
+    // Ignore file extentions for now...
+    var filename = req.params.collection.split('.');
+    var format = null;
+    if (filename.length > 1)
+        format = filename[1];
 
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    var collectionId = filename[0].replace(/_/g, ' ');
+    var json = collectionId;
 
     // @todo Wrap in try/catch to handle errors
     jess.getCollection(collectionId)
     .then(function(collection) {
-        if (collection == null)
-            return;
-        // @todo create converters for languages other than javascript
-        return jess.convertCollection(collection, "javascript");
+        switch(format) {
+            case "md":
+                return jess.convertCollection(collection, "markdown");
+                break;
+            case "html":
+                return jess.convertCollection(collection, "html");
+                break;
+            case "javascript":
+            default:
+                return jess.convertCollection(collection, "javascript");
+                break;
+        }
     })
-    .then(function(javascript) {
-        res.send(javascript);
+    .then(function(response) {
+        switch(format) {
+            case "md":
+                break;
+            case "html":
+                break;
+            case "javascript":
+            default:
+                res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.send(response);
+                break;
+        }
+    });
+});
+
+
+app.post('/json/', function(req, res, next) {
+    var collectionJson = req.body.collectionJson;
+    var format = req.body.format;
+        
+    // @todo Wrap in try/catch to handle errors
+    jess.parseCollection(collectionJson)
+    .then(function(collection) {
+        switch(format) {
+            case "md":
+                return jess.convertCollection(collection, "markdown");
+                break;
+            case "html":
+                return jess.convertCollection(collection, "html");
+                break;
+            case "javascript":
+            default:
+                return jess.convertCollection(collection, "javascript");
+                break;
+        }
+    })
+    .then(function(generatedContent) {
+        switch(format) {
+            case "md":
+                break;
+            case "html":
+                break;
+            case "javascript":
+            default:
+                res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.send(generatedContent);
+                break;
+        }
     });
 });
 

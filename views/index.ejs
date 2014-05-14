@@ -1,97 +1,138 @@
-<div class="hidden-xs" style="background-image: url(/img/postman-pat.jpg); background-repeat: no-repeat; background-attachment: fixed; background-position: center -200px; background-size: cover; -moz-background-size: cover; margin-bottom: 50px; border-bottom: 5px solid red;">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <h1 class="text-center" style="font-size: 72px; color: #fff; margin: 80px 0; text-shadow: 0 0px 12px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.5);">Jess <small style="color: rgba(255,255,255,0.85);">a companion for Postman</small></h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12" style="margin: 25px 0;">
+                    <p class="lead text-center">
+                        <strong>Jess</strong> converts <a href="http://www.getpostman.com">Postman</a> API collections
+                        to client libraries &amp; documentation
+                    </p>
+                </div>
+            </div>
+            <form name="import" method="get" action="/json/" class="row">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label>Generate:</label>
+                        <select name="format" class="form-control input-lg">
+                            <option value="javascript" default="default">JavaScript</option>
+                            <!-- <option value="markdown">Markdown</option>
+                            <option value="html">HTML</option> -->
+                        </select>
+                    </div>
+                    <div class="col-sm-7">
+                        <label>From URL or JSON:</label>
+                        <textarea name="collection" class="form-control input-lg" rows="1" placeholder="Postman collection URL, ID or JSON"></textarea>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>&nbsp;</label><br/>
+                        <button type="submit" class="btn btn-lg btn-primary btn-block">Convert</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row hidden-xs">
+                <div class="col-sm-3">
+                    &nbsp;
+                </div>
+                <div class="col-sm-9">
+                    <p style="margin-top: 10px;" class="text-muted">
+                        e.g. <a href="https://www.getpostman.com/collections/52016da919f6ed2a0a46" id="demo" class="text-muted">https://www.getpostman.com/collections/52016da919f6ed2a0a46</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container visible-xs">
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>Jess</h1>
-            <p class="lead">
-                a companion for Postman
-            </p>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-1 col-md-2">&nbsp;</div>
-        <div class="col-sm-10 col-md-8">
-            <form name="postman2jquery" method="get" action="/collections/" class="row">
-                <div class="form-group">
-                    <p class="lead text-center">
-                        <strong>Jess</strong> converts a <a href="http://www.getpostman.com">Postman</a> API collection
-                        to a JavaScript library
-                    </p>
-                </div>
-                <div class="form-group">
-                        <div class="col-xs-8">
-                        <input name="collectionId" type="text" class="form-control input-lg" placeholder="URL or ID of a collection on getpostman.com" />
-                        <p style="margin-top: 10px;" class="text-muted">
-                            example: <a href="https://www.getpostman.com/collections/52016da919f6ed2a0a46" id="demo" class="text-muted">https://www.getpostman.com/collections/52016da919f6ed2a0a46</a>
-                        </p>
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-primary col-xs-3">Convert</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-sm-1 col-md-2">&nbsp;</div>
-    </div>
     <div id="result" class="row" style="margin-top: 20px; display: none;">
-        <div class="col-sm-12">
-            <h2>
-                JavaScript library
-                <a id="download" href="" class="btn btn-default pull-right">Download the JavaScript</a>
-            </h2>
-            <pre id="url" class="text-center"></pre>
-            <pre id="javascript">
-            <!-- <div class="well">
-                <textarea id="javascript" class="form-control" rows="50" style="font-family: monaco; font-size: 12px;"></textarea>
-            </div> -->
+        <ul id="tabs-result" class="nav nav-tabs">
+            <li class="active"><a href="#tab-code" data-toggle="tab">Code</a></li>
+            <!-- <li><a href="#tab-docs" data-toggle="tab">Documentation</a></li> -->
+        </ul>
+        <br/>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-code">
+                <div class="col-sm-12">
+                    <h2>
+                        Code
+                        <a id="download" href="" class="btn btn-default pull-right"><i class="fa fa-link"></i> Link to this library</a>
+                    </h2>
+                    <pre id="code"></pre>
+                </div>
+            </div>
+            <div class="tab-docs" id="tab-import-from-json">
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <p class="text-muted text-center" style="margin: 75px 0;">
+            <p class="text-muted text-center" style="margin: 50px 0;">
                 <a href="http://en.wikipedia.org/wiki/Postman_Pat">Jess</a> is <a href="https://github.com/iaincollins/jess">free software</a> by <a href="http://iaincollins.com">@iaincollins</a>. It is not associated with <a href="http://www.getpostman.com">Postman</a>.
             </p>
         </div>
     </div>
     <script>
     jQuery(document).ready(function() {
+        
+        $('textarea[name="collection"]').focus();
+        
+        $(document).on('click', '#tabs-result a', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
 
         $(document).on('click touch', 'a#demo', function(e) {
             e.preventDefault();
-            $('input[name="collectionId"]').val( this.href );
-            $('form[name="postman2jquery"]').submit();
+            $('textarea[name="collection"]').val( this.href );
+            $('form[name="import"]').submit();
         });
 
-        $(document).on('submit', 'form[name="postman2jquery"]', function(e) {
+        $(document).on('submit', 'form[name="import"]', function(e) {
             e.preventDefault();
-            $('#result').fadeOut();
             
-            var input = $('input[name="collectionId"]').val().trim().replace(/\/$/, '');
-            input = input.split("/");
-            var collectionId = input[input.length - 1];
-            
-            if (collectionId == '')
-                return;
+            try {
+                // Attempt to parse as JSON, call back to trying as URL if not JSON
+                var json = $.parseJSON($('textarea[name="collection"]').val());
+                                
+                // If parsing worked, submit it to server
+                $.ajax({
+                    'cache': false,
+                    'method': 'POST',
+                    'url': '/json/',
+                    'data': { format: "javascript", collectionJson: $('textarea[name="collection"]').val() },
+                    'success': function (response) {
+                        $('#download').hide();
+                        $('#code').text( response );
+                        $('#result').slideDown();
+                    },
+                    'error': function(err) {
+//                        console.log(err);
+                    }
+                });
+            } catch (e) {
+                // If parsing input as JSON fails (and throws exception) try treating it as an ID
+                // (stripping any URL element)
+                
+                var input = $('textarea[name="collection"]').val().trim().replace(/\/$/, '');
+                input = input.split("/");
+                var collectionId = input[input.length - 1];
 
-            $.ajax({
-                'cache': false,
-                'url': '/collections/' + collectionId,
-                'success': function (response) {
-                   $('#url').text('<script src="http://'+window.location.host+'/collections/'+collectionId+'.js"><'+'/script>');
-                   $('#download').attr('href', 'http://'+window.location.host+'/collections/'+collectionId+'.js');
-                   $('#javascript').html(response);
-                   $('#result').slideDown();
-                }
-            });
+                if (collectionId == '')
+                    return;
+                    
+                $.ajax({
+                    'cache': false,
+                    'url': '/collections/' + collectionId + '.js',
+                    'success': function (response) {
+                       $('#download').attr('href', 'http://'+window.location.host+'/collections/'+collectionId+'.js').show();
+                       $('#code').text( response );
+                       $('#result').slideDown();
+                    },
+                    'error': function(err) {
+//                        console.log(err);
+                    }
+                });
+            }
+
         });
+
     });
     </script>
 </div>

@@ -13,6 +13,8 @@
     "linewrap": "*",
     "lingo": "*",
     "cloneextend" : "*",
-    "moment": "*"
+    "moment": "*",
+    "querystring": "*",
+    "markdown": "*"
   }
 }
